@@ -86,3 +86,4 @@ errores relacionados con git-cinnabar
 fallos al mapear commits
 
     Mapping Mercurial commit hashes to Git commit hashes...
+        

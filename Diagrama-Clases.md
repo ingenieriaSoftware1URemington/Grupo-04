@@ -1,3 +1,5 @@
+## Esteban - Alexis - Daniel
+
 # 📊 Diagrama de Clases – Sistema de Ventas
 
 Este proyecto representa un sistema de gestión de ventas que incluye control de usuarios, administración, inventario y facturación.
@@ -139,5 +141,6 @@ Gestiona las facturas y los pagos del sistema.
 ---
 ![Caso de usi](Img/unnamed.png)
 
-Daniel - Esteban - Alexis 
+ 
+
 

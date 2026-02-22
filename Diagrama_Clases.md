@@ -138,3 +138,6 @@ Gestiona las facturas y los pagos del sistema.
 
 ---
 ![Caso de usi](Img/unnamed.png)
+
+Daniel - Esteban - Alexis 
+

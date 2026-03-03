@@ -143,5 +143,3 @@ Gestiona las facturas y los pagos del sistema.
 
  
 
-
-# hola mundo

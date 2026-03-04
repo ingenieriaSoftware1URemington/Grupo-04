@@ -75,9 +75,13 @@ class Hotel:
         # metemos un cuarto nuevo
         self.habitaciones.append(habitacion)
 
-    def consultar_disponibilidad(self):
-        # mira cuales cuartos estan libres
-        return [h for h in self.habitaciones if h.disponible]
+    def consultar_disponibilidad(self, fecha_inicio: datetime, fecha_fin: datetime):
+        # FECHAS DE DISPONIBILIDAD - HABITACIONES
+        disponibles = []
+        for h in self.habitaciones:
+            if h.esta_disponible(fecha_inicio, fecha_fin):
+                disponibles.append(h)
+        return disponibles
 
 
 class Habitacion:
@@ -90,51 +94,77 @@ class Habitacion:
         self.numero = numero
         self.precio = precio
         self.disponible = True  # empieza libre
+        self.fechas_reservadas: List[tuple] = []
 
-    def reservar(self):
-        # si ya esta ocupado no se puede otra vez
-        if not self.disponible:
+    def esta_disponible(self, fecha_inicio: datetime, fecha_fin: datetime):
+        for inicio, fin in self.fechas_reservadas:
+            if (fecha_inicio <= fin and fecha_fin >= inicio):
+                return False
+        return True
+
+    def reservar(self, fecha_inicio: datetime, fecha_fin: datetime):
+        # si ya esta ocupado en esas fechas no se puede otra vez
+        if not self.esta_disponible(fecha_inicio, fecha_fin):
             raise Exception("ya esta ocupadooo")
 
+        self.fechas_reservadas.append((fecha_inicio, fecha_fin))
         self.disponible = False
 
-    def liberar(self):
+    def liberar(self, fecha_inicio: datetime, fecha_fin: datetime):
         # lo dejamos libre otra ves
-        self.disponible = True
+        self.fechas_reservadas = [
+            (inicio, fin)
+            for inicio, fin in self.fechas_reservadas
+            if not (inicio == fecha_inicio and fin == fecha_fin)
+        ]
+        if not self.fechas_reservadas:
+            self.disponible = True
 
 
 class Reserva:
     # la reserva es cuando el turista dice: quiero ese cuarto 
 
-    def __init__(self, id_reserva: int, turista: Turista, habitacion: Habitacion):# FECHAS - DESTINO 
-        if not habitacion.disponible:
+    def __init__(self, id_reserva: int, turista: Turista, habitacion: Habitacion,
+                 fecha_inicio: datetime, fecha_fin: datetime, destino: str):# FECHAS - DESTINO 
+        if not habitacion.esta_disponible(fecha_inicio, fecha_fin):
             raise Exception("no se puede porque ya esta ocupado")
 
         self.id_reserva = id_reserva
         self.turista = turista
         self.habitacion = habitacion
+        self.destino = destino
         self.fecha = datetime.now()  # guardamos cuando paso
+        self.fecha_inicio = fecha_inicio
+        self.fecha_fin = fecha_fin
 
         # marcamos el cuarto como ocupado
-        habitacion.reservar()
+        habitacion.reservar(fecha_inicio, fecha_fin)
 
         # y se la damos al turista
         turista.agregar_reserva(self)
 
     def cancelar(self):
         # si se arrepiente lo soltamos
-        self.habitacion.liberar()
+        self.habitacion.liberar(self.fecha_inicio, self.fecha_fin)
 
 
 class Sucursal:
     # esto es como la oficina grande donde estan los hoteles y empleados
 
+    MAX_SUCURSALES = 2  # SUCURSARL 2 SUCUARSALES COMO MUCHO
+    total_sucursales = 0
+
     def __init__(self, id_sucursal: int, nombre: str):
+        if Sucursal.total_sucursales >= Sucursal.MAX_SUCURSALES:
+            raise Exception("no se pueden crear mas sucursales")
+
         self.id_sucursal = id_sucursal
         self.nombre = nombre
 
         self.hoteles: List[Hotel] = []
         self.empleados: List[Empleado] = []
+
+        Sucursal.total_sucursales += 1
 
     def agregar_hotel(self, hotel: Hotel):
         # guardamos el hotel aqui
@@ -147,9 +177,4 @@ class Sucursal:
     def listar_hoteles(self):
         # muestra todos los hoteles que tiene
         return self.hoteles
-    
-
-    # FECHAS DE DISPONIBILIDAD - HABITACIONES
-# 
-    # SUCURSARL 2 SUCUARSALES COMO MUCHO 
     

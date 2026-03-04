@@ -1,14 +1,20 @@
 # Usuario de prueba
-
+# COMENTAR TODO EL PUTO CODIGO 
 usuarios = {
     "admin": {"password": "1234", "rol": "ADMIN"},
     "juan": {"password": "0000", "rol": "USUARIO"}
+    # agregar hoteles 
+    # destinos 
+    #empleados 
+
 }
 
 # Funciones
 def mostrar_menu_principal():
     while True:
         print(" SISTEMA DE VENTAS ")
+        # registrarse 
+        # consultar vuelos o hoteles disponibilida 
         print("1 Iniciar sesion")
         print("2 Salir")
 
@@ -34,11 +40,11 @@ def login():
 
 
 def menu_admin(usuario):
-    while True:
+    while True:# corregir opciones segun los cambios 
         print(f" MENU ADMIN ({usuario}) ")
         print("1 Gestionar Usuarios")
-        print("2 Gestionar Inventario")
-        print("3 Gestionar Ventas")
+        print("2 Gestionar reservas ")
+        print("3 Gestionar hoteles ")
         print("4 Facturacion")
         print("5 Cerrar sesion")
 
@@ -60,7 +66,7 @@ def menu_admin(usuario):
 def menu_usuario(usuario):
     while True:
         print(f" MENU USUARIO ({usuario})")
-        print("1 Comprar")
+        print("1 Comprar") # consultar vuielos y cambiar fechas de reserva
         print("2 Ver historial")
         print("3 Cerrar sesion")
 

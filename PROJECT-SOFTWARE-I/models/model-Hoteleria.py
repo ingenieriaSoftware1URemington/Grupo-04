@@ -55,10 +55,12 @@ class Empleado(Persona):
         return f"reporte hecho por {self.nombre}"
 
 
+# RESERVAS VUELOS Y CREA USUSARIOS 
+
 class Hotel:
     # el hotel es como una casa grande con muchos cuartos
 
-    def __init__(self, id_hotel: int, nombre: str, ciudad: str):
+    def __init__(self, id_hotel: int, nombre: str, ciudad: str): # FECHAS 
         if not nombre:
             raise ValueError("el hotel necesita nombre")
 
@@ -81,7 +83,7 @@ class Hotel:
 class Habitacion:
     # esto es un cuartito del hotel
 
-    def __init__(self, numero: int, precio: float):
+    def __init__(self, numero: int, precio: float): # FECHAS 
         if precio <= 0:
             raise ValueError("no puede valer 0 o menos eso esta mal")
 
@@ -104,7 +106,7 @@ class Habitacion:
 class Reserva:
     # la reserva es cuando el turista dice: quiero ese cuarto 
 
-    def __init__(self, id_reserva: int, turista: Turista, habitacion: Habitacion):
+    def __init__(self, id_reserva: int, turista: Turista, habitacion: Habitacion):# FECHAS - DESTINO 
         if not habitacion.disponible:
             raise Exception("no se puede porque ya esta ocupado")
 
@@ -145,3 +147,9 @@ class Sucursal:
     def listar_hoteles(self):
         # muestra todos los hoteles que tiene
         return self.hoteles
+    
+
+    # FECHAS DE DISPONIBILIDAD - HABITACIONES
+# 
+    # SUCURSARL 2 SUCUARSALES COMO MUCHO 
+    

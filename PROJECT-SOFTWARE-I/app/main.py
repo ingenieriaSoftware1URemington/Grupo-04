@@ -71,7 +71,7 @@ def menu_usuario(usuario):
                 print("Cerrando sesion...")
                 break
             elif opcion in [1, 2]:
-                print("Funcion en construccion..")
+                print("Funcion en construccion...")
             else:
                 print("Opcion invalida")
 

@@ -53,6 +53,14 @@ class Empleado(Persona):
     def generar_reporte(self):
         # solo dice que hizo algo jeje
         return f"reporte hecho por {self.nombre}"
+    
+    def reservas_vuelos(self):
+        # esto es para que el empleado pueda ver las reservas de vuelos
+        return "aqui van las reservas de vuelos (en construccion)"
+    
+    def crear_usuario(self, id_persona: int, nombre: str, email: str, tipo: str):
+        # esto es para que el empleado pueda crear nuevos usuarios
+        return "usuario creado (en construccion)"
 
 ## Model - Persona
 # RESERVAS VUELOS Y CREA USUSARIOS 

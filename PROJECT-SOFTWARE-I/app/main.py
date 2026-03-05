@@ -1,9 +1,10 @@
-# SISTEMA DE VIAJES 
-
+# Importaciones 
+from Services.Reserva_Services import crear_reserva, cancelar_reserva, listar_reservas,crear_hotel, agregar_habitacion_a_hotel, Consultar_Disponibilidad
+from models.Model_Hoteleria import Persona, Turista, Empleado
+import datetime
 # Usuarios del sistema
 usuarios = {
     "admin": {"password": "1234", "rol": "ADMIN"},
-    "juan": {"password": "0000", "rol": "USUARIO"}
 }
 
 # Bases de datos para guardar hoteles, destinos, empleados y reservas
@@ -17,10 +18,14 @@ reservas = []
 def mostrar_menu_principal():
     while True:
         print(" SISTEMA DE VENTAS ")
-    print("1 Iniciar ")
-    print("2 Registrarse")
-    print("3 Salir")
-    return input("Opcion: ")
+        print("1 Iniciar ")
+        print("2 Registrarse")
+        print("3 Salir")
+        opcion = input("Opcion: ")
+        if opcion in ["1", "2", "3"]:
+            return opcion
+        else:
+            print("Opción inválida, intenta de nuevo.")
 
 
 #REGISTRAR USUARIO
@@ -47,18 +52,25 @@ def login():
 
 
 #AGREGAR HOTEL
+
 def agregar_hotel():
     nombre = input("Hotel: ")
     ciudad = input("Ciudad: ")
-    hoteles.append({"nombre": nombre, "ciudad": ciudad})
+    id_hotel = len(hoteles) + 1
+    hotel = crear_hotel(id_hotel, nombre, ciudad)
+    hoteles.append(hotel)
+    print("Hotel creado:", hotel.nombre)
+
 
 
 #VER HOTELES
 def ver_hoteles():
     if not hoteles:
         print("No hay hoteles")
-    for i, h in enumerate(hoteles):
-        print(i+1, h["nombre"], "-", h["ciudad"])
+    else:
+        for i, h in enumerate(hoteles):
+            print(i+1, h.nombre, "-", h.ciudad)
+
 
 
 #DESTINOS 
@@ -75,20 +87,32 @@ def agregar_empleado():
 
 #CREAR RESERVA
 def crear_reserva(usuario):
-
     ver_hoteles()
-
     if not hoteles:
         return
 
     i = int(input("Hotel #: ")) - 1
-    fecha = input("Fecha: ")
+    hotel = hoteles[i]
 
-    reservas.append({
-        "usuario": usuario,
-        "hotel": hoteles[i]["nombre"],
-        "fecha": fecha
-    })
+    # Mostrar habitaciones disponibles
+    fecha_inicio = datetime.datetime.strptime(input("Fecha inicio (YYYY-MM-DD): "), "%Y-%m-%d")
+    fecha_fin = datetime.datetime.strptime(input("Fecha fin (YYYY-MM-DD): "), "%Y-%m-%d")
+
+    disponibles = Consultar_Disponibilidad(hotel, fecha_inicio, fecha_fin)
+    if not disponibles:
+        print("No hay habitaciones disponibles")
+        return
+
+    for j, hab in enumerate(disponibles):
+        print(j+1, "Habitación", hab.numero, "-", hab.precio)
+
+    k = int(input("Habitación #: ")) - 1
+    habitacion = disponibles[k]
+
+    turista = Turista(1, usuario, f"{usuario}@mail.com", "PAS123")
+    reserva = crear_reserva(len(reservas)+1, turista, habitacion, fecha_inicio, fecha_fin, hotel.ciudad)
+    reservas.append(reserva)
+    print("Reserva creada:", reserva.destino, reserva.turista.nombre)
 
 
 #HISTORIAL 

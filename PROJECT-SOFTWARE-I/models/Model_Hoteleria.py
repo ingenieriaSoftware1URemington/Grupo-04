@@ -95,10 +95,9 @@ class Hotel:
 class Habitacion:
     # esto es un cuartito del hotel
 
-    def __init__(self, numero: int, precio: float): # FECHAS 
+    def __init__(self, numero: int, precio: float): 
         if precio <= 0:
             raise ValueError("no puede valer 0 o menos eso esta mal")
-
         self.numero = numero
         self.precio = precio
         self.disponible = True  # empieza libre

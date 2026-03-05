@@ -1,17 +1,44 @@
 # Importaciones 
-from Services.Reserva_Services import crear_reserva, cancelar_reserva, listar_reservas,crear_hotel, agregar_habitacion_a_hotel, Consultar_Disponibilidad
-from models.Model_Hoteleria import Persona, Turista, Empleado
+from Services.hotel_service import crear_hotel, agregar_habitacion_a_hotel, Consultar_Disponibilidad
+from Services.Reserva_Services import crear_reserva, cancelar_reserva, listar_reservas
+from models.Model_Hoteleria import Hotel, Habitacion, Turista, Empleado
+
+
 import datetime
+
 # Usuarios del sistema
 usuarios = {
     "admin": {"password": "1234", "rol": "ADMIN"},
+    "dani": {"password": "456", "rol": "turista"},
 }
-
 # Bases de datos para guardar hoteles, destinos, empleados y reservas
 hoteles = []
 destinos = []
 empleados = []
 reservas = []
+
+# Datos quemados
+hotel1 = Hotel(1, "Hotel Daniel", "Manizales")
+hotel2 = Hotel(2, "Hotel Alexis", "Medellín")
+hotel3 = Hotel(3, "Hotel Esteban", "Bogota")
+
+hab1 = Habitacion(101, 150.0)
+hab2 = Habitacion(102, 200.0)
+hab3 = Habitacion(201, 250.0)
+
+hotel1.agregar_habitacion(hab1)
+hotel1.agregar_habitacion(hab2)
+hotel2.agregar_habitacion(hab3)
+
+turista1 = Turista(1, "Daniel", "daniel@mail.com", "PAS123")
+turista2 = Turista(2, "Alexis", "alexis@mail.com", "PAS456")
+
+empleado1 = Empleado(1, "Laura", "laura@mail.com", "Recepcionista")
+empleado2 = Empleado(2, "Carlos", "carlos@mail.com", "Gerente")
+
+# Guardar en listas globales
+hoteles.extend([hotel1, hotel2])
+empleados.extend([empleado1, empleado2])
 
 
 #MENU PRINCIPAL
@@ -86,7 +113,8 @@ def agregar_empleado():
 
 
 #CREAR RESERVA
-def crear_reserva(usuario):
+# En main.py
+def crear_reserva_usuario(usuario):
     ver_hoteles()
     if not hoteles:
         return
@@ -94,7 +122,6 @@ def crear_reserva(usuario):
     i = int(input("Hotel #: ")) - 1
     hotel = hoteles[i]
 
-    # Mostrar habitaciones disponibles
     fecha_inicio = datetime.datetime.strptime(input("Fecha inicio (YYYY-MM-DD): "), "%Y-%m-%d")
     fecha_fin = datetime.datetime.strptime(input("Fecha fin (YYYY-MM-DD): "), "%Y-%m-%d")
 
@@ -110,17 +137,16 @@ def crear_reserva(usuario):
     habitacion = disponibles[k]
 
     turista = Turista(1, usuario, f"{usuario}@mail.com", "PAS123")
-    reserva = crear_reserva(len(reservas)+1, turista, habitacion, fecha_inicio, fecha_fin, hotel.ciudad)
+    reserva = crear_reserva(len(reservas)+1, turista, habitacion, fecha_inicio, fecha_fin, hotel.ciudad)  # esta sí es la del service
     reservas.append(reserva)
     print("Reserva creada:", reserva.destino, reserva.turista.nombre)
 
 
 #HISTORIAL 
 def historial(usuario):
-
     for r in reservas:
-        if r["usuario"] == usuario:
-            print(r["hotel"], "-", r["fecha"])
+        if r.turista.nombre == usuario:
+            print(r.hotel.nombre, "-", r.fecha_inicio.date(), "a", r.fecha_fin.date())
 
 
 #MENU ADMIN 
@@ -146,7 +172,9 @@ def menu_admin(user):
             agregar_empleado()
 
         elif op == "4":
-            print(reservas)
+            for r in reservas:
+                print(f"Reserva {r.id_reserva} - {r.turista.nombre} en {r.destino}")
+
 
         elif op == "5":
             break
@@ -168,7 +196,8 @@ def menu_usuario(user):
             ver_hoteles()
 
         elif op == "2":
-            crear_reserva(user)
+            crear_reserva_usuario(user)
+
 
         elif op == "3":
             historial(user)

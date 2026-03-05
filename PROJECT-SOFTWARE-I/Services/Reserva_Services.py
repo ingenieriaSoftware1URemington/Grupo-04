@@ -1,3 +1,21 @@
+from models.Model_Hoteleria import Reserva, Turista, Habitacion
+from datetime import datetime
+
+reservas = []
+
+def crear_reserva(id_reserva: int, turista: Turista, habitacion: Habitacion,
+                    fecha_inicio: datetime, fecha_fin: datetime, destino: str):
+    reserva = Reserva(id_reserva, turista, habitacion, fecha_inicio, fecha_fin, destino)
+    reservas.append(reserva)
+    return reserva
+
+def cancelar_reserva(reserva: Reserva):
+    reserva.cancelar()
+    reservas.remove(reserva)
+    return True
+
+def listar_reservas():
+    return reservas
 from models.Model_Hoteleria import Hotel, Habitacion, Reserva, Sucursal
 import datetime
 

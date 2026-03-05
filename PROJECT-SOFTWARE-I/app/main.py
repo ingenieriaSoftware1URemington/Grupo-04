@@ -1,109 +1,180 @@
-# Usuario de prueba
-# COMENTAR TODO EL PUTO CODIGO 
+# SISTEMA DE VIAJES 
+
+# Usuarios del sistema
 usuarios = {
     "admin": {"password": "1234", "rol": "ADMIN"},
     "juan": {"password": "0000", "rol": "USUARIO"}
-    # agregar hoteles 
-    # destinos 
-    #empleados 
-
 }
 
-# Funciones
+# Bases de datos para guardar hoteles, destinos, empleados y reservas
+hoteles = []
+destinos = []
+empleados = []
+reservas = []
+
+
+#MENU PRINCIPAL
 def mostrar_menu_principal():
     while True:
         print(" SISTEMA DE VENTAS ")
-        # registrarse 
-        # consultar vuelos o hoteles disponibilida 
-        print("1 Iniciar sesion")
-        print("2 Salir")
-
-        opcion = input("Seleccione una opcion")
-
-        if opcion in ["1", "2"]:
-            return opcion
-        else:
-            print("Opcion invalida")
+    print("1 Iniciar ")
+    print("2 Registrarse")
+    print("3 Salir")
+    return input("Opcion: ")
 
 
+#REGISTRAR USUARIO
+def registrar():
+    user = input("Nuevo usuario: ")
+    if user in usuarios:
+        print("Ya existe")
+        return
+    password = input("Contraseña: ")
+    usuarios[user] = {"password": password, "rol": "USUARIO"}
+    print("Usuario creado")
+
+
+#LOGIN
 def login():
-    print("INICIO DE SESION")
-    username = input("Usuario:")
-    password = input("Contraseña:")
+    user = input("Usuario: ")
+    password = input("Contraseña: ")
 
-    if username in usuarios and usuarios[username]["password"] == password:
-        print(f"\nBienvenido {username}")
-        return username, usuarios[username]["rol"]
+    if user in usuarios and usuarios[user]["password"] == password:
+        return user, usuarios[user]["rol"]
     else:
-        print("Usuario o contraseña incorrectos")
+        print("Datos incorrectos")
         return None, None
 
 
-def menu_admin(usuario):
-    while True:# corregir opciones segun los cambios 
-        print(f" MENU ADMIN ({usuario}) ")
-        print("1 Gestionar Usuarios")
-        print("2 Gestionar reservas ")
-        print("3 Gestionar hoteles ")
-        print("4 Facturacion")
-        print("5 Cerrar sesion")
-
-        try:
-            opcion = int(input("Seleccione una opcion: "))
-
-            if opcion == 5:
-                print("Cerrando sesion..")
-                break
-            elif 1 <= opcion <= 4:
-                print("Funcion en construccion..")
-            else:
-                print("Opcion invalida")
-
-        except ValueError:
-            print("Debe ingresar un numero")
+#AGREGAR HOTEL
+def agregar_hotel():
+    nombre = input("Hotel: ")
+    ciudad = input("Ciudad: ")
+    hoteles.append({"nombre": nombre, "ciudad": ciudad})
 
 
-def menu_usuario(usuario):
+#VER HOTELES
+def ver_hoteles():
+    if not hoteles:
+        print("No hay hoteles")
+    for i, h in enumerate(hoteles):
+        print(i+1, h["nombre"], "-", h["ciudad"])
+
+
+#DESTINOS 
+def agregar_destino():
+    destinos.append(input("Destino: "))
+
+
+#EMPLEADOS
+def agregar_empleado():
+    nombre = input("Empleado: ")
+    cargo = input("Cargo: ")
+    empleados.append({"nombre": nombre, "cargo": cargo})
+
+
+#CREAR RESERVA
+def crear_reserva(usuario):
+
+    ver_hoteles()
+
+    if not hoteles:
+        return
+
+    i = int(input("Hotel #: ")) - 1
+    fecha = input("Fecha: ")
+
+    reservas.append({
+        "usuario": usuario,
+        "hotel": hoteles[i]["nombre"],
+        "fecha": fecha
+    })
+
+
+#HISTORIAL 
+def historial(usuario):
+
+    for r in reservas:
+        if r["usuario"] == usuario:
+            print(r["hotel"], "-", r["fecha"])
+
+
+#MENU ADMIN 
+def menu_admin(user):
+
     while True:
-        print(f" MENU USUARIO ({usuario})")
-        print("1 Comprar") # consultar vuielos y cambiar fechas de reserva
-        print("2 Ver historial")
-        print("3 Cerrar sesion")
 
-        try:
-            opcion = int(input("Seleccione una opcion: "))
+        print("1 Hoteles")
+        print("2 Destinos")
+        print("3 Empleados")
+        print("4 Ver reservas")
+        print("5 Salir")
 
-            if opcion == 3:
-                print("Cerrando sesion...")
-                break
-            elif opcion in [1, 2]:
-                print("Funcion en construccion...")
-            else:
-                print("Opcion invalida")
+        op = input("Opcion: ")
 
-        except ValueError:
-            print("Debe ingresar un numero")
+        if op == "1":
+            agregar_hotel()
 
+        elif op == "2":
+            agregar_destino()
 
-# PROGRAMA PRINCIPAL
+        elif op == "3":
+            agregar_empleado()
 
-def main():
-    while True:
-        opcion = mostrar_menu_principal()
+        elif op == "4":
+            print(reservas)
 
-        if opcion == "1":
-            usuario, rol = login()
-
-            if usuario:
-                if rol == "ADMIN":
-                    menu_admin(usuario)
-                else:
-                    menu_usuario(usuario)
-
-        elif opcion == "2":
-            print("Saliendo del sistema..")
+        elif op == "5":
             break
 
 
-if __name__ == "__main__":
-    main()
+# MENU USUARIO 
+def menu_usuario(user):
+
+    while True:
+
+        print("\n1 Ver hoteles")
+        print("2 Reservar")
+        print("3 Historial")
+        print("4 Salir")
+
+        op = input("Opcion: ")
+
+        if op == "1":
+            ver_hoteles()
+
+        elif op == "2":
+            crear_reserva(user)
+
+        elif op == "3":
+            historial(user)
+
+        elif op == "4":
+            break
+
+
+#PROGRAMA PRINCIPAL
+def main():
+
+    while True:
+
+        op = mostrar_menu_principal()
+
+        if op == "1":
+
+            user, rol = login()
+
+            if user:
+                if rol == "ADMIN":
+                    menu_admin(user)
+                else:
+                    menu_usuario(user)
+
+        elif op == "2":
+            registrar()
+
+        elif op == "3":
+            break
+
+
+main()

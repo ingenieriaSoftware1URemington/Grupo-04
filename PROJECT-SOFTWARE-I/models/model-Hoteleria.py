@@ -54,7 +54,7 @@ class Empleado(Persona):
         # solo dice que hizo algo jeje
         return f"reporte hecho por {self.nombre}"
 
-
+## Model - Persona
 # RESERVAS VUELOS Y CREA USUSARIOS 
 
 class Hotel:
@@ -120,7 +120,7 @@ class Habitacion:
         if not self.fechas_reservadas:
             self.disponible = True
 
-
+# model reserva
 class Reserva:
     # la reserva es cuando el turista dice: quiero ese cuarto 
 
@@ -147,7 +147,7 @@ class Reserva:
         # si se arrepiente lo soltamos
         self.habitacion.liberar(self.fecha_inicio, self.fecha_fin)
 
-
+# model sucursal
 class Sucursal:
     # esto es como la oficina grande donde estan los hoteles y empleados
 

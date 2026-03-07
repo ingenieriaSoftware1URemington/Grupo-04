@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import List
 
 
-# Persona = cualquier persona del sistema
+#cualquier persona del sistema
 class Persona:
 
     def __init__(self, id_persona: int, nombre: str, email: str):
@@ -19,7 +19,6 @@ class Persona:
     # para imprimir bonito
     def __str__(self):
         return f"{self.nombre} ({self.email})"
-
 
 # Turista = persona que viaja
 class Turista(Persona):
@@ -47,11 +46,9 @@ class Turista(Persona):
         return self.reservas
 
 
-# Hotel = edificio con habitaciones
+#  clase hotel con habitaciones
 class Hotel:
-
     def __init__(self, id_hotel: int, nombre: str, ciudad: str):
-
         if not nombre:
             raise ValueError("el hotel necesita nombre")
 
@@ -70,20 +67,15 @@ class Hotel:
     def consultar_disponibilidad(self, fecha_inicio: datetime, fecha_fin: datetime):
 
         disponibles = []
-
         for h in self.habitaciones:
-
             if h.esta_disponible(fecha_inicio, fecha_fin):
                 disponibles.append(h)
-
         return disponibles
 
 
 # Habitacion = cuarto del hotel
 class Habitacion:
-
     def __init__(self, numero: int, precio: float):
-
         # revisa que el precio sea valido
         if precio <= 0:
             raise ValueError("no puede valer 0")
@@ -104,28 +96,20 @@ class Habitacion:
 
             if fecha_inicio <= fin and fecha_fin >= inicio:
                 return False
-
         return True
 
     # reserva la habitación
     def reservar(self, fecha_inicio: datetime, fecha_fin: datetime):
-
         if not self.esta_disponible(fecha_inicio, fecha_fin):
             raise Exception("ya esta ocupado")
-
         self.fechas_reservadas.append((fecha_inicio, fecha_fin))
-
         self.disponible = False
 
     # libera la habitación
     def liberar(self, fecha_inicio: datetime, fecha_fin: datetime):
-
         self.fechas_reservadas = [
-
             (inicio, fin)
-
             for inicio, fin in self.fechas_reservadas
-
             if not (inicio == fecha_inicio and fin == fecha_fin)
 
         ]
@@ -134,22 +118,19 @@ class Habitacion:
             self.disponible = True
 
 
-# Reserva = cuando alguien aparta una habitación
+# hace una reserva cuando alguien aparta una habitación
 class Reserva:
 
     def __init__(self, id_reserva: int, turista: Turista, habitacion: Habitacion,
                  fecha_inicio: datetime, fecha_fin: datetime, destino: str):
-
         # revisa si está libre
         if not habitacion.esta_disponible(fecha_inicio, fecha_fin):
             raise Exception("habitacion ocupada")
-
         # datos de la reserva
         self.id_reserva = id_reserva
         self.turista = turista
         self.habitacion = habitacion
         self.destino = destino
-
         # guarda fecha actual
         self.fecha = datetime.now()
 
@@ -164,7 +145,6 @@ class Reserva:
 
     # cancelar reserva
     def cancelar(self):
-
         self.habitacion.liberar(self.fecha_inicio, self.fecha_fin)
 
 

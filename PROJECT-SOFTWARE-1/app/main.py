@@ -66,26 +66,26 @@ def ver_hoteles():
 
 # Función para que un usuario cree una reserva
 def crear_reserva_usuario(usuario):
-    ver_hoteles()
+    ver_hoteles() # Mostramos hoteles disponibles
     i = int(input("Hotel #: ")) - 1
     hotel = hoteles[i]
     fecha_inicio = datetime.datetime.strptime(
-        input("Fecha inicio YYYY-MM-DD: "), "%Y-%m-%d"
+        input("Fecha inicio YYYY-MM-DD: "), "%Y-%m-%d"# Pedimos fechas de reserva
     )
     fecha_fin = datetime.datetime.strptime(input("Fecha fin YYYY-MM-DD: "), "%Y-%m-%d")
-    disponibles = Consultar_Disponibilidad(hotel, fecha_inicio, fecha_fin)
-    for j, hab in enumerate(disponibles):
+    disponibles = Consultar_Disponibilidad(hotel, fecha_inicio, fecha_fin)# Buscamos habitaciones disponibles
+    for j, hab in enumerate(disponibles):# Mostramos habitaciones disponibles
         print(j + 1, hab.numero, "-", hab.precio)
-    k = int(input("Habitacion #: ")) - 1
+    k = int(input("Habitacion #: ")) - 1  # El usuario elige habitación
     habitacion = disponibles[k]
-    turista = Turista(1, usuario, f"{usuario}@mail.com", "PAS123")
+    turista = Turista(1, usuario, f"{usuario}@mail.com", "PAS123")# Creamos un turista temporal
     reserva = crear_reserva(
-        len(reservas) + 1, turista, habitacion, fecha_inicio, fecha_fin, hotel.ciudad
+        len(reservas) + 1, turista, habitacion, fecha_inicio, fecha_fin, hotel.ciudad # Creamos la reserva
     )
-    reservas.append(reserva)
+    reservas.append(reserva)# Guardamos la reserva
     print("Reserva creada en", reserva.destino)
 
-
+# Funcion para ver historial de reservas del usuario
 def historial(usuario):
 
     print("\nHISTORIAL")
@@ -95,6 +95,7 @@ def historial(usuario):
             print(r.destino, r.fecha_inicio.date(), "a", r.fecha_fin.date())
 
 
+# Menu del usuario cuando ya inicio sesion
 def menu_usuario(user):
 
     while True:
@@ -120,7 +121,7 @@ def menu_usuario(user):
         elif op == "4":
             break
 
-
+# Funcion principal del programa
 def main():
 
     while True:
@@ -137,6 +138,4 @@ def main():
 
         elif op == "3":
             break
-
-
 main()

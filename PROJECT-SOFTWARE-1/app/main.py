@@ -12,7 +12,7 @@ usuarios = {
 }
 
 # Listas donde guardamos información del sistema
-hoteles = []
+hoteles = []  
 reservas = []
 empleados = []
 destinos = []

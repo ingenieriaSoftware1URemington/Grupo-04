@@ -1,89 +1,203 @@
-# Grupo-04
-UserColinIdarraga - UserAlexisRios - UserDaniel
+🏨 Sistema de Reservas de Hoteles en Python
+👥 Integrantes
 
-## Nombre del Proyecto 
-# regressors-regressions-dataset
+Daniel Florez
 
-## Lenguaje
+Alexis Rios
 
-Python se utiliza por su fortaleza Procesamiento de datos,
-Automatización de tareas, Manejo de archivos CSV y JSON,
-Integración con bases de datos y APIs.
-El proyecto usa Python como lenguaje de scripting, no como aplicación interactiva.
+Esteban Ocampo
 
-# Tipo de Proyecto
-🔹Tipo: Proyecto de análisis de datos / generador de dataset
+📌 Nombre del Proyecto
 
-Es un script de investigación cuyo objetivo es
+Sistema de Reservas de Hoteles
 
-Descargar información histórica de bugs (Bugzilla)
+🖥 Lenguaje
 
-Descargar información de commits
+El proyecto está desarrollado en Python utilizando Programación Orientada a Objetos (POO).
 
-Relacionar bugs con commits que introdujeron regresiones
+Python se utiliza porque permite:
 
-Exportar esa información en formatos utilizables (CSV y JSON)
+Manejo sencillo de datos
 
-# Descripción del fallo
+Creación de sistemas modulares
 
-Este proyecto no tiene un bug de lógica, pero sí tiene un punto crítico de fallo en la ejecución.
+Implementación rápida de lógica de negocio
 
-# ¿Qué fallaba?
+Desarrollo de aplicaciones de consola
 
-Fallo principal:
-El script depende de un repositorio externo (mozilla-central) clonado localmente y configurado con git-cinnabar.
-Si esta condición no se cumple, el script falla.
+📊 Tipo de Proyecto
 
-En otras palabras:
+🔹 Tipo: Aplicación de consola / sistema de gestión
 
-El código asume que el entorno ya está preparado, pero no valida completamente que lo esté.
+Este proyecto simula un sistema de reservas de hoteles donde los usuarios pueden interactuar mediante un menú en consola.
 
-📍 Dónde se origina el problema:
+El sistema permite:
+-
+Registro de usuarios
 
-    REPO_PATH = "mozilla-central"
+Inicio de sesión
 
+Visualización de hoteles
+
+Consulta de habitaciones disponibles
+
+Creación de reservas
+
+Visualización del historial de reservas
+
+⚙️ Funcionalidades del Sistema
+
+El sistema incluye las siguientes funciones principales:
+
+👤 Gestión de usuarios
+
+Registro de nuevos usuarios
+
+Inicio de sesión
+
+Validación de credenciales
+
+🏨 Gestión de hoteles
+
+Crear hoteles
+
+Agregar habitaciones
+
+Listar hoteles disponibles
+
+🛏 Gestión de habitaciones
+
+Consultar disponibilidad de habitaciones
+
+Control de fechas reservadas
+
+Ver precios de habitaciones
+
+📅 Gestión de reservas
+
+Crear reservas
+
+Asociar reservas a turistas
+
+Guardar historial de reservas
+
+Cancelar reservas
+
+📂 Estructura del Proyecto
+Proyecto
+│
+├── main.py
+│
+├── models
+│   └── Model_Hoteleria.py
+│
+├── Services
+│   ├── hotel_service.py
+│   └── Reserva_Services.py
 📄 main.py
 
-El script intenta acceder a esa ruta sin comprobar si existe o está configurada correctamente.
+Contiene:
 
-# ¿Por qué ocurre el fallo?
+Menú principal del sistema
 
-El proyecto necesita convertir:
+Registro de usuarios
 
-hashes de commits de Mercurial
+Inicio de sesión
 
-a hashes de Git
+Interacción del usuario con el sistema
 
-Esto solo es posible si:
+📄 Model_Hoteleria.py
 
-el repositorio mozilla-central existe localmente
+Define las clases principales del sistema:
 
-fue clonado usando git-cinnabar
+Persona
 
-está actualizado
+Turista
 
-Si cualquiera de esas condiciones falla  el script no puede continuar.
+Hotel
 
-    vcs_map.mercurial_to_git(REPO_PATH, mercurial_hashes)
-📄 main.py
+Habitacion
 
-# ¿Cómo se manifestaba el error?
+Reserva
 
-Manifestación del fallo:
+Sucursal
 
-El script se detiene durante la ejecución
+📄 hotel_service.py
 
-No se generan los archivos finales (dataset.csv, dataset.json)
+Contiene funciones relacionadas con:
 
-Aparecen errores en consola
+Creación de hoteles
 
-Errores típicos:
+Agregar habitaciones
 
-FileNotFoundError: mozilla-central
+Consultar disponibilidad
 
-errores relacionados con git-cinnabar
+📄 Reserva_Services.py
 
-fallos al mapear commits
+Contiene funciones para:
 
-    Mapping Mercurial commit hashes to Git commit hashes...
-        
+Crear reservas
+
+Cancelar reservas
+
+Listar reservas
+
+▶ Cómo ejecutar el proyecto
+1️⃣ Clonar el repositorio
+git clone https://github.com/usuario/repositorio.git
+2️⃣ Entrar a la carpeta del proyecto
+cd repositorio
+3️⃣ Ejecutar el programa
+python main.py
+
+El sistema iniciará mostrando el menú principal en consola.
+
+🧠 Ejemplo de uso
+
+Menú principal:
+
+SISTEMA DE RESERVAS
+
+1 Iniciar
+2 Registrarse
+3 Salir
+
+Después de iniciar sesión el usuario puede:
+
+1 Ver hoteles
+2 Reservar
+3 Historial
+4 Salir
+🧩 Tecnologías utilizadas
+
+Python
+
+Programación Orientada a Objetos (POO)
+
+Manejo de fechas con datetime
+
+Estructuras de datos (listas y diccionarios)
+
+📚 Conceptos aplicados
+
+En este proyecto se aplican varios conceptos de programación:
+
+Clases y objetos
+
+Herencia
+
+Encapsulamiento
+
+Listas y diccionarios
+
+Manejo de fechas
+
+Separación por capas (Model / Services / Main)
+
+Si quieres, también puedo hacerte una versión más corta del README (la que normalmente piden los profesores) o una versión más profesional para GitHub con:
+
+diagramas
+
+badges
+
+ejemplo de arquitectura MVC.
